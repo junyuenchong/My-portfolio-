@@ -6,7 +6,7 @@ import ToolsSlider from './ToolsSlider';
 import { motion } from "motion/react";
 
 
-const About= ({ }) => {
+const About = () => {
   return (
     <motion.div
       id="about"

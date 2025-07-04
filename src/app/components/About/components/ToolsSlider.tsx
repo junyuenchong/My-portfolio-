@@ -9,53 +9,38 @@ const ToolsSlider = () => {
   const sliderRef = useRef<HTMLUListElement>(null);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Extend tools for seamless loop (triple copy)
-  const extendedTools = [...toolsData, ...toolsData, ...toolsData];
+  // Duplicate tools for seamless looping
+  const extendedTools = [...toolsData, ...toolsData];
 
-  // === Auto Scroll with Seamless Looping (Improved with requestAnimationFrame) ===
+  // === Auto Scroll (Infinite Loop) ===
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
 
-    let animationFrameId: number;
-    let lastTimestamp: number | null = null;
+    const scrollAmount = 100;
+    let timeoutId: number;
 
-    // Start in the middle
-    slider.scrollLeft = slider.scrollWidth / 3;
-
-    const scrollSpeed = 0.4; // pixels per ms
-
-    const autoScroll = (timestamp: number) => {
-      if (!slider) return;
-
+    const scroll = () => {
       if (isPaused) {
-        lastTimestamp = null;
-        animationFrameId = requestAnimationFrame(autoScroll);
+        timeoutId = window.setTimeout(scroll, 2000);
         return;
       }
 
-      if (lastTimestamp !== null) {
-        const delta = timestamp - lastTimestamp;
-        slider.scrollLeft += scrollSpeed * delta;
+      const maxScroll = slider.scrollWidth / 2;
+      if (slider.scrollLeft >= maxScroll) {
+        slider.scrollLeft = 0; // Seamless reset
+      } else {
+        slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
 
-      // Loop back to middle if near ends
-      if (
-        slider.scrollLeft <= slider.scrollWidth / 3 - slider.clientWidth ||
-        slider.scrollLeft >= (slider.scrollWidth / 3) * 2
-      ) {
-        slider.scrollLeft = slider.scrollWidth / 3;
-      }
-
-      lastTimestamp = timestamp;
-      animationFrameId = requestAnimationFrame(autoScroll);
+      timeoutId = window.setTimeout(scroll, 2000);
     };
 
-    animationFrameId = requestAnimationFrame(autoScroll);
-    return () => cancelAnimationFrame(animationFrameId);
+    timeoutId = window.setTimeout(scroll, 2000);
+    return () => clearTimeout(timeoutId);
   }, [isPaused]);
 
-  // === Mouse Drag Scroll ===
+  // === Mouse Drag Scroll + Seamless Loop (both directions) ===
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
@@ -74,9 +59,26 @@ const ToolsSlider = () => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return;
       e.preventDefault();
+
       const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 1.5;
+      const walk = (x - startX) * 0.5; // Smoother & slower drag
       slider.scrollLeft = scrollStart - walk;
+
+      const halfScroll = slider.scrollWidth / 2;
+
+      // Seamless loop to right
+      if (slider.scrollLeft >= halfScroll - 5) {
+        slider.scrollLeft -= halfScroll;
+        scrollStart = slider.scrollLeft;
+        startX = e.pageX - slider.offsetLeft;
+      }
+
+      // Seamless loop to left
+      if (slider.scrollLeft <= 5) {
+        slider.scrollLeft += halfScroll;
+        scrollStart = slider.scrollLeft;
+        startX = e.pageX - slider.offsetLeft;
+      }
     };
 
     const handleMouseUp = () => {
@@ -97,7 +99,7 @@ const ToolsSlider = () => {
     };
   }, []);
 
-  // === Pause on Hover ===
+  // === Pause Auto Scroll on Hover ===
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
@@ -115,7 +117,7 @@ const ToolsSlider = () => {
   }, []);
 
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-hidden touch-none">
       <motion.ul
         ref={sliderRef}
         className="flex gap-4 whitespace-nowrap scroll-smooth overflow-x-auto cursor-grab active:cursor-grabbing select-none"
@@ -131,7 +133,7 @@ const ToolsSlider = () => {
           >
             <Image
               src={tool}
-              alt={`Tool ${i}`}
+              alt="Tool"
               className="w-6 sm:w-7 h-auto pointer-events-none"
             />
           </motion.li>
