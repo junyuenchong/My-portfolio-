@@ -16,7 +16,7 @@ const Header: React.FC<NavbarProps> = ({ isDarkMode }) => {
       <div className="w-full max-w-4xl text-center flex flex-col items-center gap-6">
 
         {/* Profile Image with Glow */}
-        <div className="relative group w-36 sm:w-72">
+        <div className="relative group w-36 sm:w-100">
           <motion.div
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
