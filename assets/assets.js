@@ -115,7 +115,7 @@ export const infoList = [
     iconDark: assets.code_icon_dark,
     title: 'Skills',
     content: {
-      filters: ['All', 'Language', 'Mobile', 'Web', 'Game', 'Database', 'Tool', 'UiUx'],
+      filters: ['All', 'Language', 'Mobile', 'Web', 'Game', 'Database', 'Tool', 'UiUx', 'Version Control System (VCS)' ],
       items: [
         { name: 'Python', type: 'Language' },
         { name: 'Java', type: 'Language' },
@@ -155,7 +155,10 @@ export const infoList = [
         { name: 'Visual Studio Code', type: 'Tool' },
       
         { name: 'Figma', type: 'UiUx' },
-        { name: 'Bootstrap', type: 'UiUx' }
+        { name: 'Bootstrap', type: 'UiUx' },
+
+        { name: 'Git', type: 'Version Control System (VCS)' }
+
       ]
     }
   },
