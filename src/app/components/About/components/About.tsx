@@ -5,11 +5,8 @@ import InfoCard from './InfoCard';
 import ToolsSlider from './ToolsSlider';
 import { motion } from "motion/react";
 
-type NavbarProps = {
-  isDarkMode: boolean;
-};
 
-const About: React.FC<NavbarProps> = ({ isDarkMode }) => {
+const About= ({ }) => {
   return (
     <motion.div
       id="about"

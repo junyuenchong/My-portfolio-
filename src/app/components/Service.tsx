@@ -3,11 +3,9 @@ import Image from 'next/image'
 import React from 'react'
 import { motion } from "motion/react"
 
-type NavbarProps = {
-    isDarkMode: boolean;
-};
 
-const Service: React.FC<NavbarProps> = ({ isDarkMode }) => {
+
+const Service = ({  }) => {
     return (
         <motion.div
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}

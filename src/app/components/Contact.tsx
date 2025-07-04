@@ -5,11 +5,8 @@ import Image from 'next/image';
 import { assets } from 'assets/assets'; // ensure your assets module exports correctly
 import { motion } from "motion/react"
 
-type NavbarProps = {
-  isDarkMode: boolean;
-};
 
-const Contact: React.FC<NavbarProps> = ({ isDarkMode }) => {
+const Contact = ({  }) => {
   const [result, setResult] = useState<string>('');
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
