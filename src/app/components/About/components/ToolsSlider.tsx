@@ -40,7 +40,7 @@ const ToolsSlider = () => {
     return () => clearTimeout(timeoutId);
   }, [isPaused]);
 
-  // === Mouse Drag Scroll + Seamless Loop (both directions) ===
+  // === Mouse & Touch Drag Scroll + Seamless Loop ===
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
@@ -49,19 +49,21 @@ const ToolsSlider = () => {
     let startX = 0;
     let scrollStart = 0;
 
-    const handleMouseDown = (e: MouseEvent) => {
+    const getX = (e: MouseEvent | TouchEvent) =>
+      'touches' in e ? e.touches[0].pageX : (e as MouseEvent).pageX;
+
+    const startDrag = (e: MouseEvent | TouchEvent) => {
       isDragging = true;
-      startX = e.pageX - slider.offsetLeft;
+      startX = getX(e) - slider.offsetLeft;
       scrollStart = slider.scrollLeft;
       setIsPaused(true);
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const onDrag = (e: MouseEvent | TouchEvent) => {
       if (!isDragging) return;
       e.preventDefault();
-
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 0.5; // Smoother & slower drag
+      const x = getX(e) - slider.offsetLeft;
+      const walk = (x - startX) * 0.5; // Smooth & slow drag
       slider.scrollLeft = scrollStart - walk;
 
       const halfScroll = slider.scrollWidth / 2;
@@ -70,32 +72,43 @@ const ToolsSlider = () => {
       if (slider.scrollLeft >= halfScroll - 5) {
         slider.scrollLeft -= halfScroll;
         scrollStart = slider.scrollLeft;
-        startX = e.pageX - slider.offsetLeft;
+        startX = getX(e) - slider.offsetLeft;
       }
 
       // Seamless loop to left
       if (slider.scrollLeft <= 5) {
         slider.scrollLeft += halfScroll;
         scrollStart = slider.scrollLeft;
-        startX = e.pageX - slider.offsetLeft;
+        startX = getX(e) - slider.offsetLeft;
       }
     };
 
-    const handleMouseUp = () => {
+    const endDrag = () => {
       isDragging = false;
       setIsPaused(false);
     };
 
-    slider.addEventListener('mousedown', handleMouseDown);
-    slider.addEventListener('mousemove', handleMouseMove);
-    slider.addEventListener('mouseup', handleMouseUp);
-    slider.addEventListener('mouseleave', handleMouseUp);
+    // Mouse events
+    slider.addEventListener('mousedown', startDrag);
+    slider.addEventListener('mousemove', onDrag);
+    slider.addEventListener('mouseup', endDrag);
+    slider.addEventListener('mouseleave', endDrag);
+
+    // Touch events
+    slider.addEventListener('touchstart', startDrag);
+    slider.addEventListener('touchmove', onDrag);
+    slider.addEventListener('touchend', endDrag);
 
     return () => {
-      slider.removeEventListener('mousedown', handleMouseDown);
-      slider.removeEventListener('mousemove', handleMouseMove);
-      slider.removeEventListener('mouseup', handleMouseUp);
-      slider.removeEventListener('mouseleave', handleMouseUp);
+      // Cleanup
+      slider.removeEventListener('mousedown', startDrag);
+      slider.removeEventListener('mousemove', onDrag);
+      slider.removeEventListener('mouseup', endDrag);
+      slider.removeEventListener('mouseleave', endDrag);
+
+      slider.removeEventListener('touchstart', startDrag);
+      slider.removeEventListener('touchmove', onDrag);
+      slider.removeEventListener('touchend', endDrag);
     };
   }, []);
 
