@@ -12,11 +12,11 @@ type NavbarProps = {
 
 const Header: React.FC<NavbarProps> = ({ isDarkMode }) => {
   return (
-    <section className="w-full min-h-screen flex items-center justify-center px-4 pt-24 sm:pt-28 bg-white text-black dark:bg-darkTheme">
+    <section className="w-full min-h-screen flex items-center justify-center px-4 pt-28 sm:pt-28 bg-white text-black dark:bg-darkTheme">
       <div className="w-full max-w-4xl text-center flex flex-col items-center gap-6">
 
         {/* Profile Image with Glow */}
-        <div className="relative group w-50 sm:w-62">
+        <div className="relative group w-40 sm:w-52 md:w-60 lg:w-72 aspect-square">
           <motion.div
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
