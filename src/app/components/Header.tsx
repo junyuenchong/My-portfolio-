@@ -12,8 +12,8 @@ type NavbarProps = {
 
 const Header: React.FC<NavbarProps> = ({ isDarkMode }) => {
   return (
-    <section className="w-full h-screen flex items-center justify-center px-6 pt-26 sm:pt-36 lg:pt-[100px] bg-white text-black dark:bg-darkTheme">
-
+    <section className="w-full h-screen flex items-center justify-center px-6 bg-white text-black dark:bg-darkTheme">
+      
       <div className="w-full max-w-5xl text-center flex flex-col items-center gap-6 ">
 
         {/* Profile Image with Glow & Hover Effect */}
