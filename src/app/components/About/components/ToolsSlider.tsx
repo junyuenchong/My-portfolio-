@@ -17,12 +17,12 @@ const ToolsSlider = () => {
     const slider = sliderRef.current;
     if (!slider) return;
 
-    const scrollAmount = 100;
+    const scrollAmount = 40; // Slower scroll amount
     let timeoutId: number;
 
     const scroll = () => {
       if (isPaused) {
-        timeoutId = window.setTimeout(scroll, 2000);
+        timeoutId = window.setTimeout(scroll, 2500); // Slightly longer delay
         return;
       }
 
@@ -33,10 +33,10 @@ const ToolsSlider = () => {
         slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
 
-      timeoutId = window.setTimeout(scroll, 2000);
+      timeoutId = window.setTimeout(scroll, 2500); // Slower scroll interval
     };
 
-    timeoutId = window.setTimeout(scroll, 2000);
+    timeoutId = window.setTimeout(scroll, 2500);
     return () => clearTimeout(timeoutId);
   }, [isPaused]);
 
