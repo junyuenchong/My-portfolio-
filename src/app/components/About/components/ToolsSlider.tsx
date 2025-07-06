@@ -17,26 +17,26 @@ const ToolsSlider = () => {
     const slider = sliderRef.current;
     if (!slider) return;
 
-    const scrollAmount = 40; // Slower scroll amount
+    const scrollAmount = 50; // Increase this for faster speed
     let timeoutId: number;
 
     const scroll = () => {
       if (isPaused) {
-        timeoutId = window.setTimeout(scroll, 2500); // Slightly longer delay
+        timeoutId = window.setTimeout(scroll, 1500); // Delay when paused
         return;
       }
 
-      const maxScroll = slider.scrollWidth / 2;
-      if (slider.scrollLeft >= maxScroll) {
-        slider.scrollLeft = 0; // Seamless reset
+      const halfScroll = slider.scrollWidth / 2;
+      if (slider.scrollLeft >= halfScroll) {
+        slider.scrollLeft = 0; // Reset to start
       } else {
         slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
 
-      timeoutId = window.setTimeout(scroll, 2500); // Slower scroll interval
+      timeoutId = window.setTimeout(scroll, 1500); // Faster auto-scroll
     };
 
-    timeoutId = window.setTimeout(scroll, 2500);
+    timeoutId = window.setTimeout(scroll, 1500);
     return () => clearTimeout(timeoutId);
   }, [isPaused]);
 
@@ -63,19 +63,19 @@ const ToolsSlider = () => {
       if (!isDragging) return;
       e.preventDefault();
       const x = getX(e) - slider.offsetLeft;
-      const walk = (x - startX) * 0.5; // Smooth & slow drag
+      const walk = (x - startX) * 0.5;
       slider.scrollLeft = scrollStart - walk;
 
       const halfScroll = slider.scrollWidth / 2;
 
-      // Seamless loop to right
+      // Loop to right
       if (slider.scrollLeft >= halfScroll - 5) {
         slider.scrollLeft -= halfScroll;
         scrollStart = slider.scrollLeft;
         startX = getX(e) - slider.offsetLeft;
       }
 
-      // Seamless loop to left
+      // Loop to left
       if (slider.scrollLeft <= 5) {
         slider.scrollLeft += halfScroll;
         scrollStart = slider.scrollLeft;
@@ -88,19 +88,16 @@ const ToolsSlider = () => {
       setIsPaused(false);
     };
 
-    // Mouse events
     slider.addEventListener('mousedown', startDrag);
     slider.addEventListener('mousemove', onDrag);
     slider.addEventListener('mouseup', endDrag);
     slider.addEventListener('mouseleave', endDrag);
 
-    // Touch events
     slider.addEventListener('touchstart', startDrag);
     slider.addEventListener('touchmove', onDrag);
     slider.addEventListener('touchend', endDrag);
 
     return () => {
-      // Cleanup
       slider.removeEventListener('mousedown', startDrag);
       slider.removeEventListener('mousemove', onDrag);
       slider.removeEventListener('mouseup', endDrag);
