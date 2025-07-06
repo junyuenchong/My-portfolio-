@@ -98,7 +98,7 @@ const Contact = ({  }) => {
         <motion.button
         whileInView={{ scale:1.05 }} transition={{  duration: 0.3 }}
           type="submit"
-          className="py-2 px-8 w-max flex items-center justify-between gap-2 bg-black/80 text-white rounded-full mx-auto hover:bg-black duration-500 dark:hover:bg-white/50 "
+          className="py-2 px-8 w-max flex items-center justify-between gap-2 bg-black/80 text-white rounded-full mx-auto hover:bg-black/50  duration-500 dark:hover:bg-white/50 "
         >
           Submit Now
           <Image src={assets.right_arrow_white} alt="arrow icon" className="w-4 h-4" />

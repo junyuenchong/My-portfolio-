@@ -10,7 +10,7 @@ const Footer: React.FC<NavbarProps> = ({ isDarkMode}) => {
     return (
         <div className='mt-5'>
             <div className='text-center'>
-                <Image src={isDarkMode? assets.logodark:assets.logo} alt='' className='w-36 mx-auto mb-2 dark:bg-black' />
+                <Image src={isDarkMode? assets.logodark:assets.logo} alt='' className='w-36 mx-auto mb-2 bg-none' />
 
 
                 <div className='w-max flex items-center gap-2 mx-auto'>
