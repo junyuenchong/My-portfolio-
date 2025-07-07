@@ -23,7 +23,8 @@ const Footer: React.FC<NavbarProps> = ({ isDarkMode}) => {
             <div className='text-center sm:flex items-center justify-between border-t border-gray-400 mx-[10%] mt-12 py-6'>
                 {/* Footer Text */}
                 <p className="text-xs text-gray-500 dark:text-white">
-                    © {new Date().getFullYear()} CJY Portfolio. Built with ❤️ using Next.js & Tailwind CSS.
+                    © {new Date().getFullYear()} CJY Portfolio. Built with ❤️ using Next.js, Tailwind CSS & TypeScript.
+
                 </p>
                 <ul className='flex items-center gap-10 justify-center mt-4 sm:mt-0'>
                     <li><a target='_blank' href="https://github.com/junyuenchong">GitHub</a></li>
