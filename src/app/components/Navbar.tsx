@@ -113,7 +113,6 @@ const Navbar: React.FC<NavbarProps> = ({ isDarkMode, setIsDarkMode }) => {
             { label: 'Home', href: '#top' },
             { label: 'About Me', href: '#about' },
             { label: 'Service', href: '#service' },
-            { label: 'My Work', href: '#work' },
             { label: 'Contact Me', href: '#contact' },
           ].map((link, index) => (
             <li key={index}>
