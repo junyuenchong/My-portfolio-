@@ -10,7 +10,7 @@ const Service = ({  }) => {
         <motion.div
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}
 
-            id='service' className="w-full px-[8%] pt-[1px] py-10 scroll-mt-20 bg-gray-50 dark:bg-darkTheme ">
+            id='service'   className="w-full px-[8%] py-16 scroll-mt-20 bg-gray-50 dark:bg-darkTheme">
             {/* Section Headings */}
             <motion.h4 
              initial={{y:-20,opacity:0}} whileInView={{y:0,opacity:1}} transition={{delay:0.3,duration:0.5}}
